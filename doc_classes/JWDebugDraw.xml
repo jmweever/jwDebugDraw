@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="JWDebugDraw" inherits="Object" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Immediate-mode debug drawing utility for 3D shapes, lines, and text.
+	</brief_description>
+	<description>
+		[JWDebugDraw] provides a static, immediate-mode API for drawing debug shapes, lines, and text in 3D and 2D screen space.
+		All methods are static and can be called from anywhere without an instance.
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="draw_arc" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="axis" type="Vector3" />
+			<param index="2" name="radius" type="float" />
+			<param index="3" name="angle_start" type="float" />
+			<param index="4" name="angle_end" type="float" />
+			<param index="5" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="6" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws an arc shape at [param position] in 3D space. The arc is aligned to [param axis] with the given [param radius], spanning from [param angle_start] to [param angle_end] in degrees.
+			</description>
+		</method>
+		<method name="draw_arrow" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="head_radius" type="float" default="0.15" />
+			<param index="3" name="head_length" type="float" default="-1.0" />
+			<param index="4" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws an arrow from [param start] to [param end] in 3D space. [param head_radius] controls the radius of the arrowhead cone. [param head_length] controls the length of the arrowhead; pass [code]-1.0[/code] to use [code]head_radius * 2[/code] automatically.
+			</description>
+		</method>
+		<method name="draw_axis" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="size" type="float" default="1.0" />
+			<description>
+				Draws a 3-axis gizmo at [param transform] in 3D space. The X, Y, and Z axes are drawn as arrows in red, green, and blue respectively, scaled by [param size].
+			</description>
+		</method>
+		<method name="draw_box" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="size" type="Vector3" />
+			<param index="2" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="3" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws an axis-aligned box centered at [param position] with the given [param size] in 3D space.
+			</description>
+		</method>
+		<method name="draw_box_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a box with the given [param transform] in 3D space. The transform's basis determines orientation and scale.
+			</description>
+		</method>
+		<method name="draw_capsule" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="radius" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a capsule in 3D space with hemispherical caps centered at [param start] and [param end], with the given [param radius].
+			</description>
+		</method>
+		<method name="draw_capsule_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a capsule with the given [param transform] in 3D space. The transform's Y axis defines the capsule's orientation; X scale defines the radius.
+			</description>
+		</method>
+		<method name="draw_circle" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="axis" type="Vector3" />
+			<param index="2" name="radius" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a full circle at [param position] in 3D space, aligned to [param axis], with the given [param radius].
+			</description>
+		</method>
+		<method name="draw_circle_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a circle with the given [param transform] in 3D space. The transform's Z axis is used as the normal; X scale defines the radius.
+			</description>
+		</method>
+		<method name="draw_cone" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="radius" type="float" />
+			<param index="2" name="height" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a cone centered at [param position] in 3D space, with the given base [param radius] and [param height]. The cone points upward along the Y axis.
+			</description>
+		</method>
+		<method name="draw_cone_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a cone with the given [param transform] in 3D space. The transform's Y axis defines the cone's orientation; X scale defines the base radius.
+			</description>
+		</method>
+		<method name="draw_curve" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="points" type="Vector3[]" />
+			<param index="1" name="tension" type="float" default="0.5" />
+			<param index="2" name="segments" type="int" default="10" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a Catmull-Rom spline through the given [param points] in 3D space. [param tension] controls how tightly the curve follows the control points (0 = loose, 1 = tight). [param segments] controls how many line segments are used to approximate each span between consecutive points.
+			</description>
+		</method>
+		<method name="draw_cylinder" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="radius" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a cylinder in 3D space with flat caps centered at [param start] and [param end], with the given [param radius].
+			</description>
+		</method>
+		<method name="draw_cylinder_arc" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="radius" type="float" />
+			<param index="3" name="angle_start" type="float" />
+			<param index="4" name="angle_end" type="float" />
+			<param index="5" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="6" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a partial cylinder arc in 3D space between [param start] and [param end], with the given [param radius], spanning from [param angle_start] to [param angle_end] in degrees.
+			</description>
+		</method>
+		<method name="draw_cylinder_arc_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="angle_start" type="float" />
+			<param index="2" name="angle_end" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a partial cylinder arc with the given [param transform] in 3D space, spanning from [param angle_start] to [param angle_end] in degrees.
+			</description>
+		</method>
+		<method name="draw_cylinder_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a cylinder with the given [param transform] in 3D space. The transform's Y axis defines the cylinder's orientation; X scale defines the radius.
+			</description>
+		</method>
+		<method name="draw_frustum" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="size_start" type="Vector2" />
+			<param index="2" name="size_end" type="Vector2" />
+			<param index="3" name="length" type="float" />
+			<param index="4" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a frustum (tapered box) starting at [param position] in 3D space. [param size_start] and [param size_end] are the XY extents of the near and far faces; [param length] is the depth along the Z axis.
+			</description>
+		</method>
+		<method name="draw_frustum_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="size_start" type="Vector2" />
+			<param index="2" name="size_end" type="Vector2" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a frustum (tapered box) with the given [param transform] in 3D space. [param size_start] and [param size_end] are the XY extents of the near and far faces, scaled by the transform.
+			</description>
+		</method>
+		<method name="draw_hemisphere" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="radius" type="float" />
+			<param index="2" name="up" type="Vector3" default="Vector3(0, 1, 0)" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a hemisphere at [param position] in 3D space with the given [param radius]. The open face points in the direction opposite [param up].
+			</description>
+		</method>
+		<method name="draw_line" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="3" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a line between [param start] and [param end] in 3D space.
+			</description>
+		</method>
+		<method name="draw_point" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="size" type="float" default="0.01" />
+			<param index="2" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="3" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a point at [param position] in 3D space. The point is rendered as a small filled sphere with the given visual [param size].
+			</description>
+		</method>
+		<method name="draw_pyramid" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="size" type="Vector2" />
+			<param index="2" name="height" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a pyramid at [param position] in 3D space with a rectangular base of [param size] and the given [param height]. The apex points upward along the Y axis.
+			</description>
+		</method>
+		<method name="draw_pyramid_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a pyramid with the given [param transform] in 3D space. The transform's Y axis defines the apex direction; scale determines the base size and height.
+			</description>
+		</method>
+		<method name="draw_ray" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="origin" type="Vector3" />
+			<param index="1" name="direction" type="Vector3" />
+			<param index="2" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="3" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a ray starting at [param origin] pointing in [param direction] in 3D space. Rendered as an arrow; the length of [param direction] determines the ray's length.
+			</description>
+		</method>
+		<method name="draw_sphere" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="radius" type="float" />
+			<param index="2" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="3" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a sphere at [param position] in 3D space with the given [param radius].
+			</description>
+		</method>
+		<method name="draw_sphere_arc" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="position" type="Vector3" />
+			<param index="1" name="radius" type="float" />
+			<param index="2" name="angle_start" type="float" />
+			<param index="3" name="angle_end" type="float" />
+			<param index="4" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a partial sphere arc at [param position] in 3D space with the given [param radius], spanning from [param angle_start] to [param angle_end] in degrees.
+			</description>
+		</method>
+		<method name="draw_sphere_arc_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="angle_start" type="float" />
+			<param index="2" name="angle_end" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a partial sphere arc with the given [param transform] in 3D space, spanning from [param angle_start] to [param angle_end] in degrees. X scale of the transform defines the radius.
+			</description>
+		</method>
+		<method name="draw_sphere_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="2" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a sphere with the given [param transform] in 3D space. X scale of the transform defines the radius.
+			</description>
+		</method>
+		<method name="draw_tapered_capsule" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="radius_start" type="float" />
+			<param index="3" name="radius_end" type="float" />
+			<param index="4" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a tapered capsule in 3D space with hemispherical caps at [param start] and [param end], where each cap has an independent radius defined by [param radius_start] and [param radius_end].
+			</description>
+		</method>
+		<method name="draw_tapered_capsule_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="radius_start" type="float" />
+			<param index="2" name="radius_end" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a tapered capsule with the given [param transform] in 3D space. [param radius_start] and [param radius_end] are scaled by the transform's X scale.
+			</description>
+		</method>
+		<method name="draw_tapered_cylinder" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="start" type="Vector3" />
+			<param index="1" name="end" type="Vector3" />
+			<param index="2" name="radius_start" type="float" />
+			<param index="3" name="radius_end" type="float" />
+			<param index="4" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a tapered cylinder in 3D space between [param start] and [param end], where each end has an independent radius defined by [param radius_start] and [param radius_end].
+			</description>
+		</method>
+		<method name="draw_tapered_cylinder_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="transform" type="Transform3D" />
+			<param index="1" name="radius_start" type="float" />
+			<param index="2" name="radius_end" type="float" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a tapered cylinder with the given [param transform] in 3D space. [param radius_start] and [param radius_end] are scaled by the transform's X scale.
+			</description>
+		</method>
+		<method name="draw_text" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="text" type="String" />
+			<param index="1" name="position" type="Vector3" />
+			<param index="2" name="text_color" type="Color" default="Color(1, 1, 1, 1)" />
+			<param index="3" name="outline_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="4" name="background_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.TextFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws [param text] at [param position] in 3D world space. The text is projected onto the screen and scales with distance. Pass a non-transparent [param outline_color] to draw a text outline, or a non-transparent [param background_color] to draw a filled background rectangle behind the text.
+			</description>
+		</method>
+		<method name="draw_text_2d" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="text" type="String" />
+			<param index="1" name="position" type="Vector2" />
+			<param index="2" name="text_color" type="Color" default="Color(1, 1, 1, 1)" />
+			<param index="3" name="outline_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="4" name="background_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.TextFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws [param text] at a 2D screen-space [param position] in pixels. Use [constant TextFlags.TEXT_RELATIVE] to treat [param position] as a normalized [code](0..1, 0..1)[/code] fraction of the viewport size instead.
+			</description>
+		</method>
+		<method name="draw_text_xform" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="text" type="String" />
+			<param index="1" name="transform" type="Transform3D" />
+			<param index="2" name="text_color" type="Color" default="Color(1, 1, 1, 1)" />
+			<param index="3" name="outline_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="4" name="background_color" type="Color" default="Color(0, 0, 0, 0)" />
+			<param index="5" name="flags" type="int" enum="JWDebugDraw.TextFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws [param text] at the origin of [param transform] in 3D world space. Unlike [method draw_text], the text is oriented and scaled according to the transform's basis, allowing it to appear as a billboard attached to a surface.
+			</description>
+		</method>
+		<method name="draw_triangle" qualifiers="static">
+			<return type="void" />
+			<param index="0" name="vertex_a" type="Vector3" />
+			<param index="1" name="vertex_b" type="Vector3" />
+			<param index="2" name="vertex_c" type="Vector3" />
+			<param index="3" name="color" type="Color" default="Color(0.5961, 0.9843, 0.5961, 1)" />
+			<param index="4" name="flags" type="int" enum="JWDebugDraw.DrawFlags" is_bitfield="true" default="0" />
+			<description>
+				Draws a triangle with vertices at [param vertex_a], [param vertex_b], and [param vertex_c] in 3D space.
+			</description>
+		</method>
+	</methods>
+	<constants>
+		<constant name="TEXT_NONE" value="0" enum="TextFlags" is_bitfield="true">
+			No text flags. Default behavior.
+		</constant>
+		<constant name="TEXT_FIXED_SIZE" value="1" enum="TextFlags" is_bitfield="true">
+			Text is drawn at a fixed pixel size regardless of distance from the camera.
+		</constant>
+		<constant name="TEXT_RELATIVE" value="2" enum="TextFlags" is_bitfield="true">
+			For [method draw_text_2d]: treat the position as a normalized [code](0..1, 0..1)[/code] fraction of the viewport size rather than pixel coordinates.
+		</constant>
+		<constant name="TEXT_APPEND" value="4" enum="TextFlags" is_bitfield="true">
+			Append this text to the previous text entry at the same position rather than creating a new entry. Useful for building multi-line debug labels across multiple calls.
+		</constant>
+		<constant name="DRAW_NONE" value="0" enum="DrawFlags" is_bitfield="true">
+			No draw flags. Renders as a wireframe outline with default settings.
+		</constant>
+		<constant name="DRAW_FILLED" value="1" enum="DrawFlags" is_bitfield="true">
+			Render the shape as a solid filled volume in addition to its outline.
+		</constant>
+		<constant name="DRAW_BACKGROUND" value="2" enum="DrawFlags" is_bitfield="true">
+			Render the back faces of the shape with a reduced alpha, making occluded geometry visible through solid objects.
+		</constant>
+		<constant name="DRAW_SILHOUETTE_ONLY" value="4" enum="DrawFlags" is_bitfield="true">
+			Render only the outer silhouette edge of the shape, hiding interior lines.
+		</constant>
+		<constant name="DRAW_SCREEN_SPACE" value="8" enum="DrawFlags" is_bitfield="true">
+			Scale the shape so it maintains a constant screen-space size regardless of distance from the camera. Used internally by [method draw_point].
+		</constant>
+	</constants>
+</class>
