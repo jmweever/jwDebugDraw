@@ -1,5 +1,7 @@
 # jwDebugDraw
 
+[![Build GDExtension Cross Platform Plugin](https://github.com/jmweever/jwDebugDraw/actions/workflows/build_plugin.yml/badge.svg)](https://github.com/jmweever/jwDebugDraw/actions/workflows/build_plugin.yml)
+
 A plugin for [Godot Engine](https://github.com/godotengine/godot) that provides an API for drawing debug shapes, lines, and text in 3D world space and 2D screen space. Designed for zero-hassle debug visualization: no nodes, no instances, no setup.
 
 ![Screenshot of the plugin](/assets/screenshot-1.png?raw=true)
