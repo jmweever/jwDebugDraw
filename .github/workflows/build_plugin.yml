@@ -253,8 +253,8 @@ jobs:
       # Copy .gdextension file if it exists
       - name: Copy .gdextension file
         run: |
-          if [ -f "project/${{ env.PLUGIN_NAME }}/${{ env.PLUGIN_NAME }}.gdextension" ]; then
-            cp "project/${{ env.PLUGIN_NAME }}/${{ env.PLUGIN_NAME }}.gdextension" "${{ env.PLUGIN_NAME }}/${{ env.PLUGIN_NAME }}.gdextension"
+          if [ -f "${{ env.PLUGIN_NAME }}.gdextension" ]; then
+            cp "${{ env.PLUGIN_NAME }}.gdextension" "${{ env.PLUGIN_NAME }}/${{ env.PLUGIN_NAME }}.gdextension"
           fi
 
       # Copy LICENSE file if it exists

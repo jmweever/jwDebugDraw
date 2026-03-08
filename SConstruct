@@ -82,6 +82,7 @@ library = env.SharedLibrary(
 )
 
 copy = env.Install("{}/bin/{}/".format(projectdir, env["platform"]), library)
+gdext = env.Install("{}/bin/".format(projectdir), "{}.gdextension".format(libname))
 
-default_args = [library, copy]
+default_args = [library, copy, gdext]
 Default(*default_args)
