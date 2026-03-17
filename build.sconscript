@@ -1,8 +1,6 @@
 Import('env')
 
-jw_src = 'deps/jwdebugdraw/src'
-
-env.Append(CPPPATH=[jw_src])
+env.Append(CPPPATH=[Dir('src').abspath])
 
 def shader_to_header(target, source, env):
 	with open(str(source[0]), 'r') as f:
@@ -25,12 +23,9 @@ def shader_to_header(target, source, env):
 if 'ShaderToHeader' not in env['BUILDERS']:
 	env.Append(BUILDERS={'ShaderToHeader': env.Builder(action=shader_to_header)})
 
-shader_header = env.ShaderToHeader(
-	'{}/shader.hpp'.format(jw_src),
-	'{}/shader.gdshader'.format(jw_src)
-)
+shader_header = env.ShaderToHeader('src/shader.hpp', 'src/shader.gdshader')
 
-sources = Glob('deps/jwdebugdraw/src/*.cpp')
+sources = Glob('src/*.cpp')
 env.Depends(sources, shader_header)
 
 Return('sources')
