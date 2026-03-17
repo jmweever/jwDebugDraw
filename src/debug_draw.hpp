@@ -496,6 +496,7 @@ namespace JW
 			static PackedByteArray    *_texture_bytes;
 			static PackedFloat32Array *_transform_buffer;
 			static int                 _allocated_count;
+			static bool                _test_enabled;
 
 			static float _calculate_pixel_scale();
 			static Quaternion _rotation_from_normal( Vector3 normal );

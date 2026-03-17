@@ -59,6 +59,7 @@ namespace JW
 	PackedByteArray            *JWDebugDraw::_texture_bytes     = nullptr;
 	PackedFloat32Array         *JWDebugDraw::_transform_buffer  = nullptr;
 	int                         JWDebugDraw::_allocated_count   = 0;
+	bool                        JWDebugDraw::_test_enabled      = false;
 
 	void JWDebugDraw::initialize()
 	{
@@ -148,7 +149,10 @@ namespace JW
 			OS::get_singleton()->set_low_processor_usage_mode( false );
 		}
 
-		_scene_tree->connect( "process_frame", callable_mp_static( &JWDebugDraw::_test ) );
+		if ( _test_enabled )
+		{
+			_scene_tree->connect( "process_frame", callable_mp_static( &JWDebugDraw::_test ) );
+		}
 #endif
 
 		_initialized = true;
