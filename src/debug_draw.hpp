@@ -172,14 +172,14 @@ namespace JW
 
 			/**
 			 * @brief Draws a frustum shape (tapered box) at the given @p position in 3D space.
-			 * @param position   The @c Vector3 position to draw the frustum at.
+			 * @param start      The @c Vector3 position to start drawing the frustum at.
+			 * @param end        The @c Vector3 position to end drawing the frustum at.
 			 * @param size_start The @c Vector2 size of the starting end of the frustum.
 			 * @param size_end   The @c Vector2 size of the ending end of the frustum.
-			 * @param length     The @c float length of the frustum.
 			 * @param color      The @c Color the frustum will be drawn in.
 			 * @param flags      Optional extra config flags for the frustum.
 			 */
-			static void draw_frustum( const Vector3& position, const Vector2& size_start, const Vector2& size_end, float length, const Color& color = COLOR_DEFAULT, BitField<DrawFlags> flags = DRAW_FLAGS_NONE );
+			static void draw_frustum( const Vector3& start, const Vector3& end, const Vector2& size_start, const Vector2& size_end, const Color& color = COLOR_DEFAULT, BitField<DrawFlags> flags = DRAW_FLAGS_NONE );
 
 			/**
 			 * @brief Draws a frustum shape (tapered box) with the given @p transform in 3D space.

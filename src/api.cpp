@@ -196,16 +196,21 @@ namespace JW
 		);
 	}
 
-	void JWDebugDraw::draw_frustum( const Vector3& position, const Vector2& size_start, const Vector2& size_end, const float length, const Color& color, const BitField<DrawFlags> flags )
+	void JWDebugDraw::draw_frustum( const Vector3& start, const Vector3& end, const Vector2& size_start, const Vector2& size_end, const Color& color, const BitField<DrawFlags> flags )
 	{
 		ERR_FAIL_COND( !_initialized );
 
+		const Vector3 dir    = end - start;
+		const float   length = dir.length();
+
+		if ( length < 1e-5f ) return;
+
 		_add_shape(
 			1,
-			position,
+			start,
 			Vector3( size_start.x, size_start.y, length ),
 			color,
-			Quaternion(),
+			_rotation_from_normal( -dir.normalized() ),
 			Vector4( 1, size_end.x * 0.5f, size_end.y * 0.5f, static_cast<float>( static_cast<std::uint32_t>( flags ) ) )
 		);
 	}
