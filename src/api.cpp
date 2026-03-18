@@ -205,12 +205,29 @@ namespace JW
 
 		if ( length < 1e-5f ) return;
 
+		const Vector3 d = dir / length;
+		const Vector3 z = Vector3( 0, 0, 1 );
+		Quaternion rotation;
+
+		if ( d.is_equal_approx( z ) )
+		{
+			rotation = Quaternion();
+		}
+		else if ( d.is_equal_approx( -z ) )
+		{
+			rotation = Quaternion( Vector3( 0, 1, 0 ), Math_PI );
+		}
+		else
+		{
+			rotation = Quaternion( z.cross( d ).normalized(), Math::acos( z.dot( d ) ) );
+		}
+
 		_add_shape(
 			1,
-			start,
+			start + d * ( length * 0.5f ),
 			Vector3( size_start.x, size_start.y, length ),
 			color,
-			_rotation_from_normal( -dir.normalized() ),
+			rotation,
 			Vector4( 1, size_end.x * 0.5f, size_end.y * 0.5f, static_cast<float>( static_cast<std::uint32_t>( flags ) ) )
 		);
 	}
