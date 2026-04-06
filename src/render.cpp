@@ -384,6 +384,13 @@ namespace JW
 			proj      = _camera->get_camera_projection();
 			view      = cam_xform.inverse();
 		}
+		else if ( _camera_override )
+		{
+			view      = _override_view;
+			cam_xform = _override_view.affine_inverse();
+			proj      = _override_proj;
+			has_camera = true;
+		}
 
 		Vector2     vp_size   = _viewport->get_visible_rect().size;
 		Rect2       safe_area = Rect2( Vector2(), vp_size ).grow( vp_size.length() );

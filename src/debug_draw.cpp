@@ -23,6 +23,10 @@ namespace JW
 	Viewport                   *JWDebugDraw::_viewport          = nullptr;
 	Camera3D                   *JWDebugDraw::_camera            = nullptr;
 	Vector3                     JWDebugDraw::_camera_pos        = VEC3_ZERO;
+	bool                        JWDebugDraw::_camera_override   = false;
+	Vector3                     JWDebugDraw::_override_cam_pos  = VEC3_ZERO;
+	Transform3D                 JWDebugDraw::_override_view     = Transform3D();
+	Projection                  JWDebugDraw::_override_proj     = Projection();
 	float                       JWDebugDraw::_pixel_scale       = 1.0;
 	float                       JWDebugDraw::_line_thickness    = 0.5;
 	uint64_t                    JWDebugDraw::_last_frame        = 0;
@@ -218,7 +222,15 @@ namespace JW
 
 	void JWDebugDraw::on_frame()
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized )
+		{
+			if ( const auto *scene_tree = cast_to<SceneTree>( Engine::get_singleton()->get_main_loop() );
+			     !scene_tree || !scene_tree->get_root() ) return;
+
+			initialize();
+
+			if ( !_initialized ) return;
+		}
 
 		const Engine *engine = Engine::get_singleton();
 
@@ -256,92 +268,109 @@ namespace JW
 
 		if ( _camera )
 		{
-			_camera_pos     = _camera->get_global_position();
-			_pixel_scale    = _calculate_pixel_scale();
-			_line_thickness = CONSTANT_THICKNESS_DEFAULT ? THICKNESS_DEFAULT * _pixel_scale : THICKNESS_DEFAULT;
+			_camera_pos = _camera->get_global_position();
+		}
+		else if ( _camera_override )
+		{
+			_camera_pos = _override_cam_pos;
+		}
+		else
+		{
+			return;
+		}
 
-			const bool cam_changed    = !_camera_pos.is_equal_approx( _last_cam_pos );
-			const bool scale_changed  = !Math::is_equal_approx( _pixel_scale, _last_pixel_scale );
-			const bool shapes_changed = _shapes_dirty || _shape_num != _last_shape_num;
+		_pixel_scale    = _calculate_pixel_scale();
+		_line_thickness = CONSTANT_THICKNESS_DEFAULT ? THICKNESS_DEFAULT * _pixel_scale : THICKNESS_DEFAULT;
 
-			if ( cam_changed )
+		const bool cam_changed    = !_camera_pos.is_equal_approx( _last_cam_pos );
+		const bool scale_changed  = !Math::is_equal_approx( _pixel_scale, _last_pixel_scale );
+		const bool shapes_changed = _shapes_dirty || _shape_num != _last_shape_num;
+
+		if ( cam_changed )
+		{
+			rs->material_set_param( *_material_rid, "cam_pos", _camera_pos );
+			_last_cam_pos = _camera_pos;
+		}
+
+		if ( scale_changed )
+		{
+			rs->material_set_param( *_material_rid, "pixel_scale", _pixel_scale );
+			_last_pixel_scale = _pixel_scale;
+		}
+
+		if ( ! Math::is_equal_approx( _line_thickness, _last_thickness ) )
+		{
+			rs->material_set_param( *_material_rid, "thickness", _line_thickness );
+			_last_thickness = _line_thickness;
+		}
+
+		if ( shapes_changed || cam_changed || scale_changed )
+		{
+			if ( _shape_num > 1 )
 			{
-				rs->material_set_param( *_material_rid, "cam_pos", _camera_pos );
-				_last_cam_pos = _camera_pos;
-			}
-
-			if ( scale_changed )
-			{
-				rs->material_set_param( *_material_rid, "pixel_scale", _pixel_scale );
-				_last_pixel_scale = _pixel_scale;
-			}
-
-			if ( ! Math::is_equal_approx( _line_thickness, _last_thickness ) )
-			{
-				rs->material_set_param( *_material_rid, "thickness", _line_thickness );
-				_last_thickness = _line_thickness;
-			}
-
-			if ( shapes_changed || cam_changed || scale_changed )
-			{
-				if ( _shape_num > 1 )
+				if ( static_cast<int>( _sort_keys->size() ) < _shape_num )
 				{
-					if ( static_cast<int>( _sort_keys->size() ) < _shape_num )
-					{
-						const int new_size = MAX( _shape_num, static_cast<int>( _sort_keys->size() ) * 2 );
+					const int new_size = MAX( _shape_num, static_cast<int>( _sort_keys->size() ) * 2 );
 
-						_sort_keys->resize( new_size );
-						_indices->resize( new_size );
-					}
-
-					int   *indices   = _indices->ptrw();
-					float *sort_keys = _sort_keys->ptrw();
-
-					for ( int i = 0; i < _shape_num; i++ )
-					{
-						indices[ i ] = i;
-
-						const Shape &s = _get_shape( i );
-
-						Vector3 center;
-						switch ( s.get_type() )
-						{
-							case 7:  center = s.param_a + s.rotation.xform( VEC3_UP ) * ( s.param_b.x * 0.5f ); break;
-							case 6:  center = ( s.param_a + s.param_b + Vector3( s.rotation.x, s.rotation.y, s.rotation.z ) ) / 3.0f; break;
-							case 2:
-							case 4:  center = ( s.param_a + s.param_b ) * 0.5f; break;
-							default: center = s.param_a; break;
-						}
-
-						sort_keys[ i ] = -center.distance_squared_to( _camera_pos );
-					}
-
-					std::sort(
-						_indices->ptrw(),
-						_indices->ptrw() + _shape_num,
-						[ sort_keys ]( const int a, const int b ) { return sort_keys[ a ] < sort_keys[ b ]; }
-					);
-				}
-				else if ( _shape_num == 1 )
-				{
-					if ( static_cast<int>( _indices->size() ) < 1 ) _indices->resize(1);
-					_indices->ptrw()[0] = 0;
+					_sort_keys->resize( new_size );
+					_indices->resize( new_size );
 				}
 
-				_update_texture();
-				_update_transforms();
+				int   *indices   = _indices->ptrw();
+				float *sort_keys = _sort_keys->ptrw();
 
-				_shapes_dirty   = false;
-				_last_shape_num = _shape_num;
+				for ( int i = 0; i < _shape_num; i++ )
+				{
+					indices[ i ] = i;
+
+					const Shape &s = _get_shape( i );
+
+					Vector3 center;
+					switch ( s.get_type() )
+					{
+						case 7:  center = s.param_a + s.rotation.xform( VEC3_UP ) * ( s.param_b.x * 0.5f ); break;
+						case 6:  center = ( s.param_a + s.param_b + Vector3( s.rotation.x, s.rotation.y, s.rotation.z ) ) / 3.0f; break;
+						case 2:
+						case 4:  center = ( s.param_a + s.param_b ) * 0.5f; break;
+						default: center = s.param_a; break;
+					}
+
+					sort_keys[ i ] = -center.distance_squared_to( _camera_pos );
+				}
+
+				std::sort(
+					_indices->ptrw(),
+					_indices->ptrw() + _shape_num,
+					[ sort_keys ]( const int a, const int b ) { return sort_keys[ a ] < sort_keys[ b ]; }
+				);
 			}
-			else if ( _visible_instances > 0 )
+			else if ( _shape_num == 1 )
 			{
-				rs->multimesh_set_visible_instances( *_multimesh_rid, 0 );
-				_visible_instances = 0;
+				if ( static_cast<int>( _indices->size() ) < 1 ) _indices->resize(1);
+				_indices->ptrw()[0] = 0;
 			}
+
+			_update_texture();
+			_update_transforms();
+
+			_shapes_dirty   = false;
+			_last_shape_num = _shape_num;
+		}
+		else if ( _visible_instances > 0 )
+		{
+			rs->multimesh_set_visible_instances( *_multimesh_rid, 0 );
+			_visible_instances = 0;
 		}
 
 		_update_text();
+	}
+
+	void JWDebugDraw::set_camera_override( const Vector3& position, const Transform3D& view, const Projection& projection )
+	{
+		_camera_override  = true;
+		_override_cam_pos = position;
+		_override_view    = view;
+		_override_proj    = projection;
 	}
 
 #ifdef DEBUG_ENABLED

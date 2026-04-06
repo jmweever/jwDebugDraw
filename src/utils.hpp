@@ -16,16 +16,26 @@ namespace JW
 
 	inline float JWDebugDraw::_calculate_pixel_scale()
 	{
-		if ( ! _camera || ! _viewport ) return 1.0f;
+		if ( ! _viewport ) return 1.0f;
 
 		const float vp_height = MAX( 1.0f, _viewport->get_visible_rect().size.y );
 
-		if ( _camera->get_projection() == Camera3D::PROJECTION_ORTHOGONAL )
+		if ( _camera )
 		{
-			return _camera->get_size() / vp_height;
+			if ( _camera->get_projection() == Camera3D::PROJECTION_ORTHOGONAL )
+			{
+				return _camera->get_size() / vp_height;
+			}
+
+			return 2 * Math::tan( Math::deg_to_rad( _camera->get_fov() ) * 0.5f ) / vp_height;
 		}
 
-		return 2 * Math::tan( Math::deg_to_rad( _camera->get_fov() ) * 0.5f ) / vp_height;
+		if ( _camera_override )
+		{
+			if ( const float m11 = _override_proj.columns[1][1]; m11 > 0 ) return 2.0f / ( m11 * vp_height );
+		}
+
+		return 1.0f;
 	}
 
 	inline Quaternion JWDebugDraw::_rotation_from_normal( Vector3 normal )

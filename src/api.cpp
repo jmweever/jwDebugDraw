@@ -6,7 +6,7 @@ namespace JW
 {
 	void JWDebugDraw::draw_text( const String& text, const Vector3& position, const Color& text_color, const Color& outline_color, const Color& background_color, const BitField<TextFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized || !_viewport );
+		if ( !_initialized || !_viewport ) return;
 
 		_add_text( Text {
 			false,                                              // is_2d
@@ -25,7 +25,7 @@ namespace JW
 
 	void JWDebugDraw::draw_text_xform( const String& text, const Transform3D& transform, const Color& text_color, const Color& outline_color, const Color& background_color, const BitField<TextFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized || !_viewport );
+		if ( !_initialized || !_viewport ) return;
 
 		_add_text( Text {
 			false,                                              // is_2d
@@ -44,7 +44,7 @@ namespace JW
 
 	void JWDebugDraw::draw_text_2d( const String& text, const Vector2& position, const Color& text_color, const Color& outline_color, const Color& background_color, const BitField<TextFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized || !_viewport );
+		if ( !_initialized || !_viewport ) return;
 
 		if ( static_cast<bool>( flags & TEXT_FLAGS_APPEND ) )
 		{
@@ -76,28 +76,28 @@ namespace JW
 
 	void JWDebugDraw::draw_point( const Vector3& position, const float size, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_sphere( position, size, color, flags | DRAW_FLAGS_FILLED | DRAW_FLAGS_SCREEN_SPACE );
 	}
 
 	void JWDebugDraw::draw_line( const Vector3& start, const Vector3& end, const Color& color, [[maybe_unused]] const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape( 2, start, end, color, Quaternion(), Vector4( 2, 0, 0, 0 ) );
 	}
 
 	void JWDebugDraw::draw_ray( const Vector3& origin, const Vector3& direction, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_arrow( origin, origin + direction, 0.06f, 0.16f, color, flags );
 	}
 
 	void JWDebugDraw::draw_triangle( const Vector3& vertex_a, const Vector3& vertex_b, const Vector3& vertex_c, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			6,
@@ -111,7 +111,7 @@ namespace JW
 
 	void JWDebugDraw::draw_arc( const Vector3& position, const Vector3& axis, const float radius, const float angle_start, const float angle_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			3,
@@ -125,7 +125,7 @@ namespace JW
 
 	void JWDebugDraw::draw_curve( const TypedArray<Vector3>& points, const float tension, const int segments, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const int size = static_cast<int>( points.size() );
 
@@ -156,21 +156,21 @@ namespace JW
 
 	void JWDebugDraw::draw_circle( const Vector3& position, const Vector3& axis, const float radius, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_arc( position, axis, radius, 0, 360, color, flags );
 	}
 
 	void JWDebugDraw::draw_circle_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_arc( transform.origin, transform.basis.get_column(2), transform.basis.get_column(0).length(), 0, 360, color, flags );
 	}
 
 	void JWDebugDraw::draw_box( const Vector3& position, const Vector3& size, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			1,
@@ -184,7 +184,7 @@ namespace JW
 
 	void JWDebugDraw::draw_box_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 scale = transform.basis.get_scale();
 
@@ -198,7 +198,7 @@ namespace JW
 
 	void JWDebugDraw::draw_frustum( const Vector3& start, const Vector3& end, const Vector2& size_start, const Vector2& size_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 dir    = end - start;
 		const float   length = dir.length();
@@ -234,7 +234,7 @@ namespace JW
 
 	void JWDebugDraw::draw_frustum_xform( const Transform3D &transform, const Vector2& size_start, const Vector2& size_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 sc = transform.basis.get_scale();
 
@@ -250,7 +250,7 @@ namespace JW
 
 	void JWDebugDraw::draw_pyramid( const Vector3& position, const Vector2& size, const float height, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			1,
@@ -264,7 +264,7 @@ namespace JW
 
 	void JWDebugDraw::draw_pyramid_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			1,
@@ -276,7 +276,7 @@ namespace JW
 
 	void JWDebugDraw::draw_sphere_arc( const Vector3& position, const float radius, const float angle_start, const float angle_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			0,
@@ -290,7 +290,7 @@ namespace JW
 
 	void JWDebugDraw::draw_sphere_arc_xform( const Transform3D &transform, const float angle_start, const float angle_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			0,
@@ -304,7 +304,7 @@ namespace JW
 
 	void JWDebugDraw::draw_hemisphere( const Vector3& position, const float radius, const Vector3& up, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			0,
@@ -318,21 +318,21 @@ namespace JW
 
 	void JWDebugDraw::draw_sphere( const Vector3& position, const float radius, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_sphere_arc( position, radius, 0, 360, color, flags );
 	}
 
 	void JWDebugDraw::draw_sphere_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_sphere_arc_xform( transform, 0, 360, color, flags );
 	}
 
 	void JWDebugDraw::draw_capsule( const Vector3& start, const Vector3& end, const float radius, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			4,
@@ -346,7 +346,7 @@ namespace JW
 
 	void JWDebugDraw::draw_capsule_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u = transform.basis.get_column(1) * 0.5f;
 		const float   s = transform.basis.get_scale().x;
@@ -363,7 +363,7 @@ namespace JW
 
 	void JWDebugDraw::draw_tapered_capsule( const Vector3& start, const Vector3& end, const float radius_start, const float radius_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			4,
@@ -377,7 +377,7 @@ namespace JW
 
 	void JWDebugDraw::draw_tapered_capsule_xform( const Transform3D &transform, const float radius_start, const float radius_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u  = transform.basis.get_column(1) * 0.5f;
 		const float   sc = transform.basis.get_scale().x;
@@ -394,7 +394,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cylinder( const Vector3& start, const Vector3& end, const float radius, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			5,
@@ -408,7 +408,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cylinder_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u = transform.basis.get_column(1) * 0.5f;
 		const float   s = transform.basis.get_scale().x;
@@ -425,7 +425,7 @@ namespace JW
 
 	void JWDebugDraw::draw_tapered_cylinder( const Vector3& start, const Vector3& end, const float radius_start, const float radius_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			5,
@@ -439,7 +439,7 @@ namespace JW
 
 	void JWDebugDraw::draw_tapered_cylinder_xform( const Transform3D &transform, const float radius_start, const float radius_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u  = transform.basis.get_column(1) * 0.5f;
 		const float   sc = transform.basis.get_scale().x;
@@ -456,7 +456,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cylinder_arc( const Vector3& start, const Vector3& end, const float radius, const float angle_start, const float angle_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		_add_shape(
 			7,
@@ -470,7 +470,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cylinder_arc_xform( const Transform3D &transform, const float angle_start, const float angle_end, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 s = transform.basis.get_scale();
 
@@ -486,7 +486,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cone( const Vector3& position, const float radius, const float height, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u = VEC3_UP * ( height / 2.0f );
 
@@ -502,7 +502,7 @@ namespace JW
 
 	void JWDebugDraw::draw_cone_xform( const Transform3D &transform, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 u = transform.basis.get_column(1) * 0.5f;
 
@@ -518,7 +518,7 @@ namespace JW
 
 	void JWDebugDraw::draw_arrow( const Vector3& start, const Vector3& end, const float head_radius, const float head_length, const Color& color, const BitField<DrawFlags> flags )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		const Vector3 d = end - start;
 		const float   l = d.length();
@@ -545,7 +545,7 @@ namespace JW
 
 	void JWDebugDraw::draw_axis( const Transform3D &transform, const float size )
 	{
-		ERR_FAIL_COND( !_initialized );
+		if ( !_initialized ) return;
 
 		draw_arrow(
 			transform.origin,

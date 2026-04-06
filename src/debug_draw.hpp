@@ -40,8 +40,10 @@ namespace JW
 			static inline int   FONT_SIZE                  = 14;
 
 			static void initialize();
+			static bool is_initialized() { return _initialized; }
 			static void shutdown();
 			static void on_frame();
+			static void set_camera_override( const Vector3& position, const Transform3D& view, const Projection& projection );
 
 			/**
 			 * @brief Draws the given string of text at the given @p position in 3D space.
@@ -460,6 +462,10 @@ namespace JW
 			static Viewport           *_viewport;
 			static Camera3D           *_camera;
 			static Vector3             _camera_pos;
+			static bool                _camera_override;
+			static Vector3             _override_cam_pos;
+			static Transform3D         _override_view;
+			static Projection          _override_proj;
 			static float               _pixel_scale;
 			static float               _line_thickness;
 			static uint64_t            _last_frame;
