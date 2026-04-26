@@ -127,6 +127,7 @@ namespace JW
 		rs->instance_set_extra_visibility_margin( *_instance_rid, 100 );
 		rs->instance_geometry_set_cast_shadows_setting( *_instance_rid, RenderingServer::SHADOW_CASTING_SETTING_OFF );
 		rs->instance_set_scenario( *_instance_rid, _viewport->find_world_3d()->get_scenario() );
+		rs->instance_set_layer_mask( *_instance_rid, RENDER_LAYER_MASK );
 
 		*_text_canvas_rid = rs->canvas_item_create();
 		rs->canvas_item_set_parent( *_text_canvas_rid, _viewport->find_world_2d()->get_canvas() );

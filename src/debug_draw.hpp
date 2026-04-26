@@ -16,7 +16,7 @@ namespace JW
 		GDCLASS( JWDebugDraw, Object ) // NOLINT
 
 		public:
-			enum DrawFlags : std::uint32_t
+			enum DrawFlags : uint32_t
 			{
 				DRAW_FLAGS_NONE            = 0U,
 				DRAW_FLAGS_FILLED          = 1U << 0, // 1
@@ -25,7 +25,7 @@ namespace JW
 				DRAW_FLAGS_SCREEN_SPACE    = 1U << 3  // 8
 			};
 
-			enum TextFlags : std::uint32_t
+			enum TextFlags : uint32_t
 			{
 				TEXT_FLAGS_NONE       = 0U,
 				TEXT_FLAGS_FIXED_SIZE = 1U << 0, // 1
@@ -33,11 +33,12 @@ namespace JW
 				TEXT_FLAGS_APPEND     = 1U << 2  // 4
 			};
 
-			static inline float THICKNESS_DEFAULT          = 0.5f;
-			static inline float BACKFACE_ALPHA_DEFAULT     = 0.2f;
-			static inline bool  CONSTANT_THICKNESS_DEFAULT = true;
-			static inline bool  ANTIALIASING_DEFAULT       = true;
-			static inline int   FONT_SIZE                  = 14;
+			static inline uint32_t RENDER_LAYER_MASK          = 0xFFF00000U;
+			static inline float    THICKNESS_DEFAULT          = 0.5f;
+			static inline float    BACKFACE_ALPHA_DEFAULT     = 0.2f;
+			static inline bool     CONSTANT_THICKNESS_DEFAULT = true;
+			static inline bool     ANTIALIASING_DEFAULT       = true;
+			static inline int      FONT_SIZE                  = 14;
 
 			static void initialize();
 			static bool is_initialized() { return _initialized; }
