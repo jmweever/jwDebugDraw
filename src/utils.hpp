@@ -45,7 +45,7 @@ namespace JW
 		normal.normalize();
 
 		if ( normal.is_equal_approx( VEC3_UP ) )   return {};
-		if ( normal.is_equal_approx( VEC3_DOWN ) ) return { VEC3_RIGHT, Math_PI };
+		if ( normal.is_equal_approx( VEC3_DOWN ) ) return { VEC3_RIGHT, Math::PI };
 
 		return { VEC3_UP.cross( normal ).normalized(), Math::acos( VEC3_UP.dot( normal ) ) };
 	}

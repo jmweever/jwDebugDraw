@@ -69,7 +69,7 @@ namespace JW
 
 		if ( _allocated_count < _shape_num )
 		{
-			_allocated_count = MAX( 4096, static_cast<int>( next_power_of_2( _shape_num ) ) );
+			_allocated_count = MAX( 4096, static_cast<int>( Math::next_power_of_2( static_cast<uint32_t>( _shape_num ) ) ) );
 
 			_transform_buffer->resize( _allocated_count * 12 );
 

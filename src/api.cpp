@@ -215,7 +215,7 @@ namespace JW
 		}
 		else if ( d.is_equal_approx( -z ) )
 		{
-			rotation = Quaternion( Vector3( 0, 1, 0 ), Math_PI );
+			rotation = Quaternion( Vector3( 0, 1, 0 ), Math::PI );
 		}
 		else
 		{
@@ -257,7 +257,7 @@ namespace JW
 			position,
 			Vector3( size.x, size.y, height ),
 			color,
-			Quaternion( VEC3_RIGHT, -Math_PI / 2.0f ),
+			Quaternion( VEC3_RIGHT, -Math::PI / 2.0f ),
 			Vector4( 1, 0, 0, static_cast<float>( static_cast<std::uint32_t>( flags ) ) )
 		);
 	}
